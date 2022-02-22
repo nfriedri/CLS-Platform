@@ -4,6 +4,11 @@ The presented CLS Platform is designed to be either installed as a web applicati
 
 Pre-requisties for running the application is a Linux or Windows OS with installed Python version 3.7 or higher, installed Java JDK version 8 or higher, and a JavaScript compatible internet browser, like Chrome, Firefox, Safari or Microsoft Edge. Additionally, at least 50 Gigabytes of free memory are required during the installation process. When the installation is finished, the application requires 31 Gigabyte memory space.
 
+## References
+
+Parts of this work are based on the paper "[TLDR: Extreme Summarization of Scientific Documents](https://aclanthology.org/2020.findings-emnlp.428/)" by Cachola et al..
+The application is created in terms of the Master Thesis of Niklas Friedrich at the Data and Web Science Group of the Univeristy of Mannheim, supervised by Prof. Dr. Simone Paolo Ponzetto.
+
 ## Download Data
 
 For downloading all model data that is included per default to the app, execute the command "install_models.py --download-all" after the requirements are installed. The cross-lingual TLDR generation models need to be downloaded from the following link, unzipped and moved to the models directory: https://tinyurl.com/cl-models
