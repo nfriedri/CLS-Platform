@@ -1,0 +1,18 @@
+{
+    "ROUGE": {
+        "description": "The ROUGE metric is the recall based standard summarization metric. It was introduced by Lin et al. in 2004.",
+        "url": "https://aclanthology.org/W04-1013.pdf"
+    },
+    "BLEU": {
+        "description": "The BLEU metric is the precision based standard machine-translation metric. It was intriduced by Papineni et al. in 2002.",
+        "url": "https://aclanthology.org/P02-1040.pdf"
+    },
+    "METEOR": {
+        "description": "The METEOR metric is used as a amchine-translation metric. It is invented by Banerjee et al. in 2005, to address the weaknesses of BLEU.",
+        "url": "https://aclanthology.org/W05-0909.pdf"
+    },
+    "BERTScore": {
+        "description": "The BERTScore metric is intended as a machine-translation metric. It is introduced by Zhang et al., in 2019 and is based on cosine similarities between contextual word embeddings retrieved from using a RoBERTa model.",
+        "url": "https://arxiv.org/pdf/1904.09675.pdf"
+    }
+}

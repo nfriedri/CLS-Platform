@@ -1,0 +1,37 @@
+{
+    "pegasus-large": {
+        "description": "PEGASUS large model. The model is suitable for generating mid-size summaries with lengths of about 3 to 4 sentences. PEGASUS is a 12-layer encoder-decoder transformer model with special pre-training for summarization tasks. The masked language model objective and gap sentence prediction objective are used for pre-training. Reference: Zhang et al. 2020, Google Inc.",
+        "url": "https://arxiv.org/pdf/1912.08777.pdf",
+        "max-token-length": 1024
+    },
+    "pegasus-xsum": {
+        "description": "PEGASUS model finetuned on the XSUM extreme summarization dataset. This model outputs extreme short, one sentence summaries. PEGASUS is a 12-layer encoder-decoder transformer model with special pre-training for summarization tasks. The masked language model objective and gap sentence prediction objective are used for pre-training. Reference: Zhang et al. 2020, Google Inc.",
+        "url": "https://arxiv.org/pdf/1912.08777.pdf",
+        "max-token-length": 512
+    },
+    "bart-large-cnn": {
+        "description": "BART model finetuned on the CNN/Dailymail news dataset. The model is suitable for generating mid-size summaries with lengths of about 3 to 4 sentences. BART is a 16-layer encoder-decoder transformer model using the masked language pre-training objective. Reference: Lewis et al. 2020, Facebook Inc.",
+        "url": "https://arxiv.org/pdf/1910.13461.pdf",
+        "max-token-length": 1024
+    },
+    "bart-large-xsum": {
+        "description": "BART model finetuned on the XSUM extreme summarization dataset. This model outputs extreme short one sentence summaries. BART is a 16-layer encoder-decoder transformer model using the masked language pre-training objective. Reference: Lewis et al. 2020, Facebook Inc.",
+        "url": "https://arxiv.org/pdf/1910.13461.pdf",
+        "max-token-length": 1024
+    },
+    "mbart-large-cc25": {
+        "description": "mBART model finetuned on 25 different languages. The model is able to summarize but delivers in this not task finetuned version only low qualit results. The model can be applied to generate non-English summaries from non-English inputs. The masked language model objective from BART is used in a multilingual setting for pr-training. Reference: Liu et al. 2020, Google Inc.",
+        "url": "https://arxiv.org/pdf/2001.08210.pdf",
+        "max-token-length": 1024
+    },
+    "led-large-16384-arxiv": {
+        "description": "LED (Longformer-Encoder-Decoder) model finetuned on the ARXIV summarization dataset. The model is suitable to generate mid-size, 3 to 4 sentence summaries of scientific literature, using whole research papers as input. LED is a 16-layer encoder-decoder transformer model based on BART paired with a special attention mechanism allowing for longer input sequences. Reference: Beltagy et al. 2020, Allen Institute for Artificial Intelligence.",
+        "url": "https://arxiv.org/pdf/2004.05150.pdf",
+        "max-token-length": 16384
+    },
+    "scitldr-bart-xsum": {
+        "description": "BART XSUM model finetuned on the SciTLDR dataset. Generates TLDRs of scientific research papers. Reference: Cachola et al., Paul G. Allen School of Computer Science & Engineering.",
+        "url": "https://aclanthology.org/2020.findings-emnlp.428.pdf",
+        "max-token-length": 1024
+    }
+}

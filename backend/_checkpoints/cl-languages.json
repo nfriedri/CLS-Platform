@@ -1,0 +1,27 @@
+{
+    "german": {
+        "description": "Multilingual BART (mBART) model finetuned for cross-lingual summarization of scientific research papers of the computer science domain using the cross-lingual SciTLDR-X dataset. This german version is finetuned on human annotated data.",
+        "url": "https://github/nfriedri/cl-scitldr",
+        "max-token-length": 1024
+    },
+    "italian": {
+        "description": "Multilingual BART (mBART) model finetuned for cross-lingual summarization of scientific research papers of the computer science domain using the cross-lingual SciTLDR-X dataset. This italian version is finetuned on human annotated data.",
+        "url": "https://github/nfriedri/cl-scitldr",
+        "max-token-length": 1024
+    },
+    "french": {
+        "description": "Multilingual BART (mBART) model finetuned for cross-lingual summarization of scientific research papers of the computer science domain using the cross-lingual SciTLDR-X dataset. This french version is finetuned on machine translated data.",
+        "url": "https://github/nfriedri/cl-scitldr",
+        "max-token-length": 1024
+    },
+    "spanish": {
+        "description": "Multilingual BART (mBART) model finetuned for cross-lingual summarization of scientific research papers of the computer science domain using the cross-lingual SciTLDR-X dataset. This spanish version is finetuned on machine translated data.",
+        "url": "https://github/nfriedri/cl-scitldr",
+        "max-token-length": 1024
+    },
+    "russian": {
+        "description": "Multilingual BART (mBART) model finetuned for cross-lingual summarization of scientific research papers of the computer science domain using the cross-lingual SciTLDR-X dataset. This russian version is finetuned on machine translated data.",
+        "url": "https://github/nfriedri/cl-scitldr",
+        "max-token-length": 1024
+    }
+}

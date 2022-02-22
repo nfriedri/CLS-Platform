@@ -1,0 +1,644 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the official swagger documentation to the CLS Platform. CLS is the acronym for Cross-Lingual Summarization. The CLS Platform is able to summarize monolingual articles and documents using latest state-of-the-art natural language processing technologies.Additionally, cross-lingual TLDR generation and summary evaluation are offered.",
+    "version": "1.0.0",
+    "title": "CLS Platform",
+    "contact": {
+      "email": "nfriedri@mail.uni-mannheim.de"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "wifo5-36.informaik.uni-mannheim.de",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Summarizer",
+      "description": "Summarize monolingual articles or generate cross-lingual TLDRs."
+    },
+    {
+      "name": "Evaluation",
+      "description": "Evaluate summary quality using standard metrics."
+    },
+    {
+      "name": "Translator",
+      "description": "Translate input texts into target languages."
+    },
+    {
+      "name": "Support",
+      "description": "Supportive endpoints for input extraction and language detection"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/detect-language": {
+      "post": {
+        "tags": [
+          "Support"
+        ],
+        "summary": "Detect the language of the input text",
+        "description": "Detect the language of an input text. Returns the language abbreviation for the language.",
+        "operationId": "detectLanguage",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "text",
+            "description": "Input text",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succesfull",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "language": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Input text is empty."
+          },
+          "404": {
+            "description": "No request body found."
+          }
+        }
+      }
+    },
+    "/file-to-text": {
+      "post": {
+        "tags": [
+          "Support"
+        ],
+        "summary": "Extract text from an input file",
+        "description": "Extract the text from an input file. PDF files and text files are accepted. Alternatively, the abstract only can be extracted using the abstractOnly flag.",
+        "operationId": "fileToText",
+        "consumes": [
+          "multipart/formdata"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "abstract-only",
+            "description": "Flag if only the abstract should be extracted.",
+            "required": false,
+            "default": false,
+            "type": "boolean"
+          },
+          {
+            "in": "body",
+            "name": "file",
+            "description": "Upload file, either pdf or text file.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "file": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succesfull",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Encoding error. Please ensure that uploaded text files are encoded in utf-8 or utf-16."
+          },
+          "404": {
+            "description": "Provided file is not parsable."
+          }
+        }
+      }
+    },
+    "/link-to-text": {
+      "post": {
+        "tags": [
+          "Support"
+        ],
+        "summary": "Extract text from an url",
+        "description": "Extract the text from an url. The url can either point to a hosted pdf file, or to an ARXIV or ACL website presentation of a reasearch paper. For ARXIV and ACL websites, only the papers abstract can be extracted. Abstract-Only is per default true, but can be set to false via the url query parameter.",
+        "operationId": "linkToText",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "abstract-only",
+            "description": "Flag if only the abstract should be extracted.",
+            "required": false,
+            "default": true,
+            "type": "boolean"
+          },
+          {
+            "in": "body",
+            "name": "link",
+            "description": "URL pointing to hosted pdf or ACL/ARXIV website.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "link": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succesfull",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No supported link provided. Only hosted pdf-files, or ARXIV / ACL Anthology links are supported."
+          },
+          "404": {
+            "description": "No link provided. Please provide a link and try again."
+          }
+        }
+      }
+    },
+    "/checkpoints": {
+      "get": {
+        "tags": [
+          "Summarizer"
+        ],
+        "summary": "Get available summarization models with their data.",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "checkpoints.json cannot be found."
+          }
+        }
+      }
+    },
+    "/preload": {
+      "get": {
+        "tags": [
+          "Summarizer"
+        ],
+        "summary": "Load the specified model into the memory.",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "model",
+            "description": "The model name that should be loaded. Accepted values are the ids retrieved using the checkpoints endpoint.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "huggingface",
+            "description": "Set to true if the model is a hf checkpoint id.",
+            "type": "boolean",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull"
+          },
+          "404": {
+            "description": "Requested model not found."
+          }
+        }
+      }
+    },
+    "/summarize": {
+      "post": {
+        "tags": [
+          "Summarizer"
+        ],
+        "summary": "Summarize a text with the specified transformer model.",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "model",
+            "description": "The model name that should be loaded. Accepted values are the ids retrieved using the checkpoints endpoint.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "huggingface",
+            "description": "Set to true if the model is a hf checkpoint id.",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "in": "query",
+            "name": "tgt-lang",
+            "description": "Target language for producing the summary in case multi/cross lingual models are used.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "body",
+            "name": "text",
+            "description": "Input text to be summarized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No input text."
+          }
+        }
+      }
+    },
+    "/cascading-summarization": {
+      "post": {
+        "tags": [
+          "Summarizer"
+        ],
+        "summary": "Summarize a text with the specified transformer model in cascading mode.",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "model",
+            "description": "The model name that should be loaded. Accepted values are the ids retrieved using the checkpoints endpoint.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "huggingface",
+            "description": "Set to true if the model is a hf checkpoint id.",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "in": "body",
+            "name": "text",
+            "description": "Input text to be summarized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No input text."
+          }
+        }
+      }
+    },
+    "/cross-lingual/languages": {
+      "get": {
+        "tags": [
+          "Summarizer"
+        ],
+        "summary": "Get target languages of available cross-lingual TLDR generation models.",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/cross-lingual": {
+      "post": {
+        "tags": [
+          "Summarizer"
+        ],
+        "summary": "Generate Cross-Lingual TLDRs using mBART models.",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "tgt-lang",
+            "description": "Target language for producing the summary.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "text",
+            "description": "Input text to be summarized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No input text."
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "tags": [
+          "Evaluation"
+        ],
+        "summary": "Get available evaluation metrics with their data.",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "evaluation.json cannot be found."
+          }
+        }
+      }
+    },
+    "/evaluate": {
+      "get": {
+        "tags": [
+          "Evaluation"
+        ],
+        "summary": "Evaluate input files with metrics.",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "predictions",
+            "type": "file",
+            "description": "File containing the prediction summaries.",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "references",
+            "type": "file",
+            "description": "File containing the reference summaries.",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "metrics",
+            "type": "string",
+            "description": "Selected metric",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "ref_key",
+            "type": "string",
+            "description": "Key value for finding summaries in json references.",
+            "required": false
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "metric": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Requested model not found."
+          }
+        }
+      }
+    },
+    "/translate/languages": {
+      "get": {
+        "tags": [
+          "Translator"
+        ],
+        "summary": "Get available languages for translation.",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "languages.json cannot be found."
+          }
+        }
+      }
+    },
+    "/translate": {
+      "post": {
+        "tags": [
+          "Translator"
+        ],
+        "summary": "Translates an input text into the target language.",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "opus",
+            "description": "Use opus translation models instead of mBART.",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "in": "query",
+            "name": "tgt-lang",
+            "description": "Target language for generating the translation.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "text",
+            "description": "Input text to be translated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "output": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No input text."
+          }
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about the CLS Platform",
+    "url": "http://wifo5-36.informagtik.uni-mannheim.de"
+  }
+}
