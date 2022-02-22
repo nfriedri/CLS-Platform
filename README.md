@@ -6,7 +6,7 @@ Pre-requisties for running the application is a Linux or Windows OS with install
 
 ## Download Data
 
-For downloading all model data that is included per default to the app, execute the command "install_models.py --download-all" after the requirements are installed. The cross-lingual TLDR generation models need to be downloaded from the following link, unzipped and moved to the models directory.
+For downloading all model data that is included per default to the app, execute the command "install_models.py --download-all" after the requirements are installed. The cross-lingual TLDR generation models need to be downloaded from the following link, unzipped and moved to the models directory: https://tinyurl.com/cl-models
 
 ## Installation Manual
 
