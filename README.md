@@ -23,7 +23,7 @@ Alternatively, the app can be started using docker. A dockerfile is included in 
 
 ### Web Application:
 
-For installation as a web application, additionally node.js needs to be installed on the system to re-build the front-end application. The web version uses per default gunicorn as wsgi server. For running on Windows machines, please use another WSGI server.
+For installation as a web application, additionally node.js needs to be installed on the system to re-build the front-end application. The web version uses per default gunicorn as wsgi server. This can be installed executing the command: "pip install gunicorn". For running on Windows machines, please use another WSGI server.
 
 For installation, execute the following steps:
 
